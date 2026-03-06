@@ -3,78 +3,98 @@
 @section('title', 'Abidjansports - Actualité Sportive Ivoirienne')
 
 @section('content')
-{{-- Breaking News Ticker --}}
+{{-- Breaking News Ticker - Dynamique depuis l'API --}}
+@if(isset($flashInfos) && count($flashInfos) > 0)
 <div class="bg-red-600 text-white py-2 overflow-hidden">
     <div class="container mx-auto px-4 flex items-center gap-4">
         <span class="bg-white text-red-600 px-3 py-1 rounded font-bold text-sm shrink-0">FLASH</span>
         <div class="overflow-hidden">
-            <p class="whitespace-nowrap animate-marquee">
-                🔥 Les Éléphants remportent la CAN 2024 à domicile ! • ⚽ Ligue 1 Ivoirienne : ASEC Mimosas en tête du classement • 🏀 Basketball : La Côte d'Ivoire qualifiée pour l'Afrobasket
+            <p id="flash-ticker" class="whitespace-nowrap animate-marquee">
+                @foreach($flashInfos as $index => $flash)
+                    @if($flash['icone'])<i class="{{ $flash['icone'] }}"></i>@endif
+                    {{ $flash['contenu'] }}
+                    @if($index < count($flashInfos) - 1) • @endif
+                @endforeach
             </p>
         </div>
     </div>
 </div>
+@endif
 
 <div class="container mx-auto px-4 py-8">
-    {{-- Hero Section --}}
+    {{-- Hero Section - Articles récents depuis l'API --}}
     <section class="mb-10">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {{-- Main Featured Article --}}
+            {{-- Main Featured Article (Premier article) --}}
+            @if(isset($latestArticles) && count($latestArticles) > 0)
+            @php $mainArticle = $latestArticles[0]; @endphp
             <div class="lg:col-span-2">
-                <article class="relative rounded-xl overflow-hidden group cursor-pointer h-[400px] lg:h-[500px]">
-                    <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80" 
-                         alt="Les Éléphants champions" 
-                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-6">
-                        <span class="inline-block bg-orange-600 text-white px-3 py-1 rounded text-sm font-semibold mb-3">
-                            À LA UNE
-                        </span>
-                        <h2 class="text-2xl lg:text-4xl font-bold text-white mb-3 group-hover:text-orange-400 transition">
-                            Les Éléphants de Côte d'Ivoire remportent la CAN 2024 à domicile !
-                        </h2>
-                        <p class="text-gray-300 mb-4 line-clamp-2">
-                            Une victoire historique pour le football ivoirien. Les Éléphants ont soulevé le trophée devant leur public au Stade Olympique d'Ébimpé.
-                        </p>
-                        <div class="flex items-center gap-4 text-sm text-gray-400">
-                            <span>📅 {{ now()->subHours(2)->diffForHumans() }}</span>
-                            <span>👁 12.5K vues</span>
+                <a href="{{ route('article.show', $mainArticle['slug'] ?? '#') }}" class="block">
+                    <article class="relative rounded-xl overflow-hidden group cursor-pointer h-[400px] lg:h-[500px]">
+                        <img src="{{ $mainArticle['image'] ?? 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80' }}" 
+                             alt="{{ $mainArticle['titre'] ?? 'Article' }}" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-6">
+                            <span class="inline-block bg-orange-600 text-white px-3 py-1 rounded text-sm font-semibold mb-3">
+                                {{ $mainArticle['category']['nom'] ?? 'À LA UNE' }}
+                            </span>
+                            <h2 class="text-2xl lg:text-4xl font-bold text-white mb-3 group-hover:text-orange-400 transition">
+                                {{ $mainArticle['titre'] ?? 'Titre de l\'article' }}
+                            </h2>
+                            <p class="text-gray-300 mb-4 line-clamp-2">
+                                {{ $mainArticle['resume'] ?? '' }}
+                            </p>
+                            <div class="flex items-center gap-4 text-sm text-gray-400">
+                                <span>📅 {{ \Carbon\Carbon::parse($mainArticle['created_at'])->diffForHumans() }}</span>
+                            </div>
                         </div>
-                    </div>
-                </article>
+                    </article>
+                </a>
             </div>
+            @endif
             
-            {{-- Side Featured Articles --}}
+            {{-- Side Featured Articles (2ème et 3ème articles) --}}
             <div class="flex flex-col gap-4">
-                <article class="relative rounded-xl overflow-hidden group cursor-pointer h-[240px]">
-                    <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?w=400&q=80" 
-                         alt="Basketball" 
-                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-4">
-                        <span class="inline-block bg-green-600 text-white px-2 py-0.5 rounded text-xs font-semibold mb-2">
-                            BASKETBALL
-                        </span>
-                        <h3 class="text-lg font-bold text-white group-hover:text-orange-400 transition">
-                            Afrobasket 2025 : La Côte d'Ivoire dans le groupe A
-                        </h3>
-                    </div>
-                </article>
+                @if(isset($latestArticles) && count($latestArticles) > 1)
+                @php $secondArticle = $latestArticles[1]; @endphp
+                <a href="{{ route('article.show', $secondArticle['slug'] ?? '#') }}" class="block">
+                    <article class="relative rounded-xl overflow-hidden group cursor-pointer h-[240px]">
+                        <img src="{{ $secondArticle['image'] ?? 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=400&q=80' }}" 
+                             alt="{{ $secondArticle['titre'] ?? 'Article' }}" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4">
+                            <span class="inline-block bg-green-600 text-white px-2 py-0.5 rounded text-xs font-semibold mb-2">
+                                {{ $secondArticle['category']['nom'] ?? 'SPORT' }}
+                            </span>
+                            <h3 class="text-lg font-bold text-white group-hover:text-orange-400 transition">
+                                {{ $secondArticle['titre'] ?? 'Titre de l\'article' }}
+                            </h3>
+                        </div>
+                    </article>
+                </a>
+                @endif
                 
-                <article class="relative rounded-xl overflow-hidden group cursor-pointer h-[240px]">
-                    <img src="https://images.unsplash.com/photo-1461896836934- voices-of-the-world?w=400&q=80" 
-                         alt="Athlétisme" 
-                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-4">
-                        <span class="inline-block bg-blue-600 text-white px-2 py-0.5 rounded text-xs font-semibold mb-2">
-                            ATHLÉTISME
-                        </span>
-                        <h3 class="text-lg font-bold text-white group-hover:text-orange-400 transition">
-                            Marie-Josée Ta Lou bat son record personnel
-                        </h3>
-                    </div>
-                </article>
+                @if(isset($latestArticles) && count($latestArticles) > 2)
+                @php $thirdArticle = $latestArticles[2]; @endphp
+                <a href="{{ route('article.show', $thirdArticle['slug'] ?? '#') }}" class="block">
+                    <article class="relative rounded-xl overflow-hidden group cursor-pointer h-[240px]">
+                        <img src="{{ $thirdArticle['image'] ?? 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=400&q=80' }}" 
+                             alt="{{ $thirdArticle['titre'] ?? 'Article' }}" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4">
+                            <span class="inline-block bg-blue-600 text-white px-2 py-0.5 rounded text-xs font-semibold mb-2">
+                                {{ $thirdArticle['category']['nom'] ?? 'SPORT' }}
+                            </span>
+                            <h3 class="text-lg font-bold text-white group-hover:text-orange-400 transition">
+                                {{ $thirdArticle['titre'] ?? 'Titre de l\'article' }}
+                            </h3>
+                        </div>
+                    </article>
+                </a>
+                @endif
             </div>
         </div>
     </section>
@@ -171,38 +191,42 @@
                     </a>
                 </div>
                 
-                <div class="space-y-6">
-                    @foreach($articles as $article)
-                    <article class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition group">
-                        <div class="flex flex-col md:flex-row">
-                            <div class="md:w-1/3 h-48 md:h-auto">
-                                <img src="{{ $article['image'] }}" 
-                                     alt="{{ $article['title'] }}" 
-                                     class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                            </div>
-                            <div class="flex-1 p-5">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <span class="bg-{{ $article['category_color'] }}-100 text-{{ $article['category_color'] }}-700 px-2 py-0.5 rounded text-xs font-semibold">
-                                        {{ $article['category'] }}
-                                    </span>
-                                    <span class="text-gray-400 text-xs">{{ $article['date'] }}</span>
+                <div id="latest-articles" class="space-y-6">
+                    @isset($latestArticles)
+                    @foreach($latestArticles as $article)
+                    <a href="{{ route('article.show', $article['slug'] ?? '#') }}" class="block">
+                        <article class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition group">
+                            <div class="flex flex-col md:flex-row">
+                                <div class="md:w-1/3 h-48 md:h-auto">
+                                    <img src="{{ $article['image'] ?? 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&q=80' }}" 
+                                         alt="{{ $article['titre'] ?? 'Article' }}" 
+                                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                                 </div>
-                                <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition line-clamp-2">
-                                    {{ $article['title'] }}
-                                </h3>
-                                <p class="text-gray-600 text-sm line-clamp-2 mb-3">
-                                    {{ $article['excerpt'] }}
-                                </p>
-                                <div class="flex items-center justify-between text-sm">
-                                    <span class="text-gray-500">Par {{ $article['author'] }}</span>
-                                    <a href="#" class="text-orange-600 hover:text-orange-700 font-semibold">
-                                        Lire la suite →
-                                    </a>
+                                <div class="flex-1 p-5">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded text-xs font-semibold">
+                                            {{ $article['category']['nom'] ?? 'Sport' }}
+                                        </span>
+                                        <span class="text-gray-400 text-xs">{{ \Carbon\Carbon::parse($article['created_at'])->diffForHumans() }}</span>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition line-clamp-2">
+                                        {{ $article['titre'] ?? 'Titre de l\'article' }}
+                                    </h3>
+                                    <p class="text-gray-600 text-sm line-clamp-2 mb-3">
+                                        {{ $article['resume'] ?? '' }}
+                                    </p>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-500">Abidjansports</span>
+                                        <span class="text-orange-600 hover:text-orange-700 font-semibold">
+                                            Lire la suite →
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </article>
+                        </article>
+                    </a>
                     @endforeach
+                    @endisset
                 </div>
                 
                 {{-- Load More --}}

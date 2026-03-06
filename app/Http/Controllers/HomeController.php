@@ -2,59 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ApiService;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    protected ApiService $apiService;
+
+    public function __construct(ApiService $apiService)
+    {
+        $this->apiService = $apiService;
+    }
+
     public function index()
     {
-        $articles = [
-            [
-                'title' => 'Sébastien Haller de retour en sélection après sa guérison',
-                'excerpt' => 'L\'attaquant ivoirien Sébastien Haller fait son grand retour en équipe nationale après avoir vaincu son cancer. Une nouvelle qui réjouit tous les fans des Éléphants.',
-                'image' => 'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=600&q=80',
-                'category' => 'Football',
-                'category_color' => 'orange',
-                'author' => 'Kouamé Yao',
-                'date' => 'Il y a 3 heures',
-            ],
-            [
-                'title' => 'ASEC Mimosas : Le club forme une nouvelle génération de talents',
-                'excerpt' => 'L\'académie de l\'ASEC continue de produire des joueurs de classe mondiale. Découvrez les jeunes pépites qui font rêver les recruteurs européens.',
-                'image' => 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=600&q=80',
-                'category' => 'Football',
-                'category_color' => 'orange',
-                'author' => 'Aminata Diallo',
-                'date' => 'Il y a 5 heures',
-            ],
-            [
-                'title' => 'Basketball : Les Éléphants préparent l\'Afrobasket 2025',
-                'excerpt' => 'L\'équipe nationale de basketball intensifie sa préparation pour la prochaine édition de l\'Afrobasket. Le sélectionneur dévoile sa liste préliminaire.',
-                'image' => 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=600&q=80',
-                'category' => 'Basketball',
-                'category_color' => 'blue',
-                'author' => 'Jean-Marc Konan',
-                'date' => 'Il y a 8 heures',
-            ],
-            [
-                'title' => 'Marie-Josée Ta Lou : "Je vise l\'or aux JO de Los Angeles"',
-                'excerpt' => 'La sprinteuse ivoirienne se confie sur ses ambitions pour les prochains Jeux Olympiques et son programme d\'entraînement intensif.',
-                'image' => 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=600&q=80',
-                'category' => 'Athlétisme',
-                'category_color' => 'green',
-                'author' => 'Fatou Bamba',
-                'date' => 'Hier',
-            ],
-            [
-                'title' => 'Ligue 1 : Africa Sports remporte le derby d\'Abidjan',
-                'excerpt' => 'Dans un match intense au stade Félix Houphouët-Boigny, Africa Sports s\'impose face à son rival historique grâce à un but dans les dernières minutes.',
-                'image' => 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&q=80',
-                'category' => 'Football',
-                'category_color' => 'orange',
-                'author' => 'Ibrahim Touré',
-                'date' => 'Hier',
-            ],
-        ];
+        $flashInfos = $this->apiService->getFlashInformations();
+        $latestArticles = $this->apiService->getLatestArticles(10);
 
         $standings = [
             ['name' => 'ASEC Mimosas', 'played' => 18, 'points' => 42],
@@ -72,7 +35,20 @@ class HomeController extends Controller
             ['title' => 'La Côte d\'Ivoire accueillera la CAN 2027', 'views' => '48K'],
         ];
 
-        return view('home', compact('articles', 'standings', 'popularArticles'));
+        return view('home', compact('latestArticles', 'standings', 'popularArticles', 'flashInfos'));
+    }
+
+    public function article($slug)
+    {
+        $article = $this->apiService->getArticle($slug);
+        
+        if (!$article) {
+            abort(404);
+        }
+        
+        $latestArticles = $this->apiService->getLatestArticles(5);
+        
+        return view('article', compact('article', 'latestArticles'));
     }
 
     public function category($slug)

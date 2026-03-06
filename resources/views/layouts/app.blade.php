@@ -8,6 +8,7 @@
     
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -39,7 +40,7 @@
                             </div>
         </div>
         
-        {{-- Navigation --}}
+        {{-- Navigation dynamique depuis l'API --}}
         <nav class="bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-md relative z-50 mb-4">
             <div class="container mx-auto px-4">
                 <ul class="flex items-center gap-0">
@@ -50,75 +51,41 @@
                         </a>
                     </li>
                     
-                    {{-- Football avec sous-menu --}}
-                    <li class="relative dropdown-menu">
-                        <button type="button" class="dropdown-toggle flex items-center gap-1 px-5 py-3 font-semibold hover:bg-white/20 border-b-2 border-transparent hover:border-white transition-all {{ request()->is('categorie/football*') ? 'bg-white/20 border-white' : '' }}">
-                            Football
-                            <svg class="w-4 h-4 transition-transform dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <ul class="dropdown-content absolute left-0 top-full bg-white text-gray-800 rounded-b-lg shadow-xl min-w-[200px] hidden z-50">
-                            <li><a href="{{ route('category', 'football') }}" class="block px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">🇨🇮 Ligue 1 Ivoirienne</a></li>
-                            <li><a href="{{ route('category', 'football') }}" class="block px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">🌍 CAF Champions League</a></li>
-                            <li><a href="{{ route('category', 'football') }}" class="block px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">🏆 Coupe Nationale</a></li>
-                            <li><a href="{{ route('category', 'football') }}" class="block px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">🐘 Équipe Nationale</a></li>
-                            <li><a href="{{ route('category', 'football') }}" class="block px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition border-t">🌐 Football International</a></li>
-                        </ul>
-                    </li>
-                    
-                    {{-- Basketball avec sous-menu --}}
-                    <li class="relative dropdown-menu">
-                        <button type="button" class="dropdown-toggle flex items-center gap-1 px-5 py-3 font-semibold hover:bg-white/20 border-b-2 border-transparent hover:border-white transition-all {{ request()->is('categorie/basketball*') ? 'bg-white/20 border-white' : '' }}">
-                            Basketball
-                            <svg class="w-4 h-4 transition-transform dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <ul class="dropdown-content absolute left-0 top-full bg-white text-gray-800 rounded-b-lg shadow-xl min-w-[200px] hidden z-50">
-                            <li><a href="{{ route('category', 'basketball') }}" class="block px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">🇨🇮 Championnat National</a></li>
-                            <li><a href="{{ route('category', 'basketball') }}" class="block px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">🌍 Afrobasket</a></li>
-                            <li><a href="{{ route('category', 'basketball') }}" class="block px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">🏀 NBA</a></li>
-                        </ul>
-                    </li>
-                    
-                    {{-- Athlétisme --}}
-                    <li class="relative dropdown-menu">
-                        <button type="button" class="dropdown-toggle flex items-center gap-1 px-5 py-3 font-semibold hover:bg-white/20 border-b-2 border-transparent hover:border-white transition-all {{ request()->is('categorie/athletisme*') ? 'bg-white/20 border-white' : '' }}">
-                            Athlétisme
-                            <svg class="w-4 h-4 transition-transform dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <ul class="dropdown-content absolute left-0 top-full bg-white text-gray-800 rounded-b-lg shadow-xl min-w-[200px] hidden z-50">
-                            <li><a href="{{ route('category', 'athletisme') }}" class="block px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">🏅 Jeux Olympiques</a></li>
-                            <li><a href="{{ route('category', 'athletisme') }}" class="block px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">🌍 Championnats d'Afrique</a></li>
-                            <li><a href="{{ route('category', 'athletisme') }}" class="block px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">🏆 Diamond League</a></li>
-                        </ul>
-                    </li>
-                    
-                    {{-- Tennis --}}
-                    <li>
-                        <a href="{{ route('category', 'tennis') }}" class="block px-5 py-3 font-semibold hover:bg-white/20 border-b-2 border-transparent hover:border-white transition-all {{ request()->is('categorie/tennis*') ? 'bg-white/20 border-white' : '' }}">
-                            Tennis
-                        </a>
-                    </li>
-                    
-                    {{-- Autres Sports --}}
-                    <li class="relative dropdown-menu">
-                        <button type="button" class="dropdown-toggle flex items-center gap-1 px-5 py-3 font-semibold hover:bg-white/20 border-b-2 border-transparent hover:border-white transition-all">
-                            Autres Sports
-                            <svg class="w-4 h-4 transition-transform dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <ul class="dropdown-content absolute left-0 top-full bg-white text-gray-800 rounded-b-lg shadow-xl min-w-[200px] hidden z-50">
-                            <li><a href="#" class="block px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">🥊 Boxe</a></li>
-                            <li><a href="#" class="block px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">🥋 Taekwondo</a></li>
-                            <li><a href="#" class="block px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">🏊 Natation</a></li>
-                            <li><a href="#" class="block px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">🚴 Cyclisme</a></li>
-                        </ul>
-                    </li>
+                    {{-- Catégories dynamiques depuis l'API --}}
+                    @isset($menuCategories)
+                        @foreach($menuCategories as $category)
+                            @if(count($category['sous_categories'] ?? []) > 0)
+                                {{-- Catégorie avec sous-menu --}}
+                                <li class="relative dropdown-menu">
+                                    <button type="button" class="dropdown-toggle flex items-center gap-1 px-5 py-3 font-semibold hover:bg-white/20 border-b-2 border-transparent hover:border-white transition-all {{ request()->is('categorie/' . $category['slug'] . '*') ? 'bg-white/20 border-white' : '' }}">
+                                        {{ $category['nom'] }}
+                                        <svg class="w-4 h-4 transition-transform dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </button>
+                                    <ul class="dropdown-content absolute left-0 top-full bg-white text-gray-800 rounded-b-lg shadow-xl min-w-[200px] hidden z-50">
+                                        @foreach($category['sous_categories'] as $sousCategorie)
+                                            <li>
+                                                <a href="{{ route('category', $sousCategorie['slug']) }}" class="flex items-center gap-2 px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">
+                                                    @if($sousCategorie['icone'])
+                                                        <i class="{{ $sousCategorie['icone'] }}"></i>
+                                                    @endif
+                                                    {{ $sousCategorie['nom'] }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            @else
+                                {{-- Catégorie sans sous-menu --}}
+                                <li>
+                                    <a href="{{ route('category', $category['slug']) }}" class="block px-5 py-3 font-semibold hover:bg-white/20 border-b-2 border-transparent hover:border-white transition-all {{ request()->is('categorie/' . $category['slug'] . '*') ? 'bg-white/20 border-white' : '' }}">
+                                        {{ $category['nom'] }}
+                                    </a>
+                                </li>
+                            @endif
+                        @endforeach
+                    @endisset
                     
                     {{-- Séparateur --}}
                     <li class="flex-1"></li>
@@ -131,7 +98,7 @@
                         </a>
                     </li>
                     
-                    {{-- Équipes --}}
+                    {{-- Classements --}}
                     <li>
                         <a href="{{ route('teams') }}" class="block px-5 py-3 font-semibold hover:bg-white/20 border-b-2 border-transparent hover:border-white transition-all {{ request()->is('equipes*') ? 'bg-white/20 border-white' : '' }}">
                             Classements
