@@ -30,13 +30,12 @@ jobs:
             # Install PHP dependencies
             composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
 
-            # Install Node.js if not present
-            if ! command -v node &> /dev/null; then
-              curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-              sudo apt-get install -y nodejs
-            fi
+            # Source bash profile for npm
+            source ~/.bashrc || true
+            export PATH=$PATH:/usr/bin:/usr/local/bin:/root/.nvm/versions/node/*/bin
 
             # Install Node dependencies and build assets
+            which npm || echo "npm not in PATH"
             npm ci --production=false
             npm run build
 
