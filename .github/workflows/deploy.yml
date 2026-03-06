@@ -1,4 +1,4 @@
-name: Deploy Laravel to VPS
+name: Deploy Abidjansports Frontend to VPS
 
 on:
   push:
@@ -22,20 +22,24 @@ jobs:
             git config --global --add safe.directory "${{ secrets.APP_DIR }}"
 
             # Configure Git credentials for private repo
-            git remote set-url origin https://${{ secrets.GH_TOKEN }}@github.com/pegasus120mouan/abidjansports_admin.git
+            git remote set-url origin https://${{ secrets.GH_TOKEN }}@github.com/pegasus120mouan/abidjansports.git
 
             git fetch --all
             git reset --hard origin/main
 
+            # Install PHP dependencies
             composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
 
-            php artisan migrate --force
-            php artisan storage:link --force
+            # Install Node dependencies and build assets
+            npm ci --production=false
+            npm run build
 
-            # Fix storage permissions
-            chmod -R 775 storage bootstrap/cache
-            chown -R www-data:www-data storage bootstrap/cache
-
+            # Laravel optimizations
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
+            php artisan cache:clear
+
+            # Fix permissions
+            chmod -R 775 storage bootstrap/cache
+            chown -R www-data:www-data storage bootstrap/cache
