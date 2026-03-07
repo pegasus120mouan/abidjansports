@@ -30,12 +30,13 @@ jobs:
             # Install PHP dependencies
             composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
 
-            # Use absolute path for npm (Ubuntu/Debian default)
-            export PATH="/usr/local/bin:/usr/bin:$PATH"
+            # Load NVM and set npm path
+            export NVM_DIR="/root/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             
             # Install Node dependencies and build assets
-            /usr/bin/npm ci --production=false || npm ci --production=false
-            /usr/bin/npm run build || npm run build
+            npm ci --production=false
+            npm run build
 
             # Laravel optimizations
             php artisan config:cache
