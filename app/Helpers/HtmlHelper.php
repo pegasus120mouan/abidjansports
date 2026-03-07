@@ -69,7 +69,7 @@ class HtmlHelper
 
         // Remplacer l'URL MinIO par le proxy local
         $minioPattern = 'http://51.178.49.141:9000/abidjansports/';
-        $proxyUrl = url('/images/');
+        $proxyUrl = url('/images') . '/';
         
         return str_replace($minioPattern, $proxyUrl, $url);
     }
