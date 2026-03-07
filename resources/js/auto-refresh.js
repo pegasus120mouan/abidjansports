@@ -10,8 +10,15 @@ class AutoRefresh {
         this.articlesContainer = document.getElementById('latest-articles');
         this.flashContainer = document.getElementById('flash-ticker');
         this.heroContainer = document.getElementById('hero-articles');
+        this.minioPattern = 'http://51.178.49.141:9000/abidjansports/';
+        this.proxyUrl = window.location.origin + '/images/';
         
         this.init();
+    }
+    
+    proxyImageUrl(url) {
+        if (!url) return null;
+        return url.replace(this.minioPattern, this.proxyUrl);
     }
 
     init() {
@@ -68,7 +75,7 @@ class AutoRefresh {
         const mainDate = this.heroContainer.querySelector('#hero-main-date');
         const mainLink = this.heroContainer.querySelector('#hero-main-link');
         
-        if (mainImage) mainImage.src = mainArticle.image || '';
+        if (mainImage) mainImage.src = this.proxyImageUrl(mainArticle.image) || '';
         if (mainTitle) mainTitle.textContent = mainArticle.titre || '';
         if (mainResume) mainResume.textContent = mainArticle.resume || '';
         if (mainCategory) mainCategory.textContent = mainArticle.category?.nom || 'Sport';
@@ -93,7 +100,7 @@ class AutoRefresh {
                 <article class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition group">
                     <div class="flex flex-col md:flex-row">
                         <div class="md:w-1/3 h-48 md:h-auto">
-                            <img src="${article.image || 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&q=80'}" 
+                            <img src="${this.proxyImageUrl(article.image) || 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&q=80'}" 
                                  alt="${article.titre || 'Article'}" 
                                  class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         </div>
