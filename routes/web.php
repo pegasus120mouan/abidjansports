@@ -3,8 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\ImageProxyController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Proxy pour les images MinIO (HTTPS)
+Route::get('/images/{path}', [ImageProxyController::class, 'show'])->where('path', '.*')->name('image.proxy');
 
 // API interne pour le rafraîchissement AJAX
 Route::get('/api/latest-articles', [ApiController::class, 'latestArticles'])->name('api.latest-articles');
