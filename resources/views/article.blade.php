@@ -11,7 +11,7 @@
                 {{-- Image de l'article --}}
                 @if($article['image'])
                 <div class="relative h-[300px] lg:h-[400px]">
-                    <img src="{{ $article['image'] }}" 
+                    <img src="{{ \App\Helpers\HtmlHelper::proxyImageUrl($article['image']) }}" 
                          alt="{{ $article['titre'] }}" 
                          class="w-full h-full object-cover">
                     <div class="absolute top-4 left-4">
@@ -93,7 +93,7 @@
                     @foreach($latestArticles as $recent)
                     <a href="{{ route('article.show', $recent['slug']) }}" class="flex gap-3 group">
                         @if($recent['image'])
-                        <img src="{{ $recent['image'] }}" 
+                        <img src="{{ \App\Helpers\HtmlHelper::proxyImageUrl($recent['image']) }}" 
                              alt="{{ $recent['titre'] }}" 
                              class="w-20 h-16 object-cover rounded-lg shrink-0">
                         @endif

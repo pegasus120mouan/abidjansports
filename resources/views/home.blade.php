@@ -31,7 +31,7 @@
             <div class="lg:col-span-2">
                 <a href="{{ route('article.show', $mainArticle['slug'] ?? '#') }}" class="block">
                     <article class="relative rounded-xl overflow-hidden group cursor-pointer h-[400px] lg:h-[500px]">
-                        <img src="{{ $mainArticle['image'] ?? 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80' }}" 
+                        <img src="{{ \App\Helpers\HtmlHelper::proxyImageUrl($mainArticle['image']) ?? 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80' }}" 
                              alt="{{ $mainArticle['titre'] ?? 'Article' }}" 
                              class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
@@ -60,7 +60,7 @@
                 @php $secondArticle = $latestArticles[1]; @endphp
                 <a href="{{ route('article.show', $secondArticle['slug'] ?? '#') }}" class="block">
                     <article class="relative rounded-xl overflow-hidden group cursor-pointer h-[240px]">
-                        <img src="{{ $secondArticle['image'] ?? 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=400&q=80' }}" 
+                        <img src="{{ \App\Helpers\HtmlHelper::proxyImageUrl($secondArticle['image']) ?? 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=400&q=80' }}" 
                              alt="{{ $secondArticle['titre'] ?? 'Article' }}" 
                              class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
@@ -80,7 +80,7 @@
                 @php $thirdArticle = $latestArticles[2]; @endphp
                 <a href="{{ route('article.show', $thirdArticle['slug'] ?? '#') }}" class="block">
                     <article class="relative rounded-xl overflow-hidden group cursor-pointer h-[240px]">
-                        <img src="{{ $thirdArticle['image'] ?? 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=400&q=80' }}" 
+                        <img src="{{ \App\Helpers\HtmlHelper::proxyImageUrl($thirdArticle['image']) ?? 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=400&q=80' }}" 
                              alt="{{ $thirdArticle['titre'] ?? 'Article' }}" 
                              class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
@@ -198,7 +198,7 @@
                         <article class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition group">
                             <div class="flex flex-col md:flex-row">
                                 <div class="md:w-1/3 h-48 md:h-auto">
-                                    <img src="{{ $article['image'] ?? 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&q=80' }}" 
+                                    <img src="{{ \App\Helpers\HtmlHelper::proxyImageUrl($article['image']) ?? 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&q=80' }}" 
                                          alt="{{ $article['titre'] ?? 'Article' }}" 
                                          class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                                 </div>

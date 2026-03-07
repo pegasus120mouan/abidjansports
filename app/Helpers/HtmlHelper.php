@@ -59,6 +59,22 @@ class HtmlHelper
     }
 
     /**
+     * Transforme une URL d'image MinIO en URL proxy HTTPS
+     */
+    public static function proxyImageUrl($url)
+    {
+        if (empty($url)) {
+            return null;
+        }
+
+        // Remplacer l'URL MinIO par le proxy local
+        $minioPattern = 'http://51.178.49.141:9000/abidjansports/';
+        $proxyUrl = url('/images/');
+        
+        return str_replace($minioPattern, $proxyUrl, $url);
+    }
+
+    /**
      * Convertit le texte brut en HTML avec des paragraphes
      */
     public static function textToHtml($text)
