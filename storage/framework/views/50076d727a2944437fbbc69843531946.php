@@ -67,7 +67,7 @@
                                     <ul class="dropdown-content absolute left-0 top-full bg-white text-gray-800 rounded-b-lg shadow-xl min-w-[200px] hidden z-50">
                                         <?php $__currentLoopData = $category['sous_categories']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sousCategorie): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <li>
-                                                <a href="<?php echo e(route('category', $sousCategorie['slug'])); ?>" class="flex items-center gap-2 px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">
+                                                <a href="<?php echo e(route('sous-category', $sousCategorie['slug'])); ?>" class="flex items-center gap-2 px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">
                                                     <?php if($sousCategorie['icone']): ?>
                                                         <i class="<?php echo e($sousCategorie['icone']); ?>"></i>
                                                     <?php endif; ?>

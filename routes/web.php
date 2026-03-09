@@ -14,6 +14,7 @@ Route::get('/images/{path}', [ImageProxyController::class, 'show'])->where('path
 Route::get('/api/latest-articles', [ApiController::class, 'latestArticles'])->name('api.latest-articles');
 Route::get('/api/flash-infos', [ApiController::class, 'flashInfos'])->name('api.flash-infos');
 Route::get('/categorie/{slug}', [HomeController::class, 'category'])->name('category');
+Route::get('/sous-categorie/{slug}', [HomeController::class, 'sousCategory'])->name('sous-category');
 Route::get('/article/{slug}', [HomeController::class, 'article'])->name('article.show');
 Route::get('/resultats', [HomeController::class, 'results'])->name('results');
 Route::get('/equipes', [HomeController::class, 'teams'])->name('teams');

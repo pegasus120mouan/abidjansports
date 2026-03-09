@@ -90,7 +90,22 @@ class ApiService
             $response = Http::timeout(5)->get("{$this->baseUrl}/articles/category/{$slug}");
             
             if ($response->successful()) {
-                return $response->json('data') ?? [];
+                return $response->json() ?? [];
+            }
+            
+            return [];
+        } catch (\Exception $e) {
+            return [];
+        }
+    }
+
+    public function getArticlesBySousCategory($slug)
+    {
+        try {
+            $response = Http::timeout(5)->get("{$this->baseUrl}/articles/sous-category/{$slug}");
+            
+            if ($response->successful()) {
+                return $response->json() ?? [];
             }
             
             return [];

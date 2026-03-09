@@ -66,7 +66,7 @@
                                     <ul class="dropdown-content absolute left-0 top-full bg-white text-gray-800 rounded-b-lg shadow-xl min-w-[200px] hidden z-50">
                                         @foreach($category['sous_categories'] as $sousCategorie)
                                             <li>
-                                                <a href="{{ route('category', $sousCategorie['slug']) }}" class="flex items-center gap-2 px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">
+                                                <a href="{{ route('sous-category', $sousCategorie['slug']) }}" class="flex items-center gap-2 px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition">
                                                     @if($sousCategorie['icone'])
                                                         <i class="{{ $sousCategorie['icone'] }}"></i>
                                                     @endif
