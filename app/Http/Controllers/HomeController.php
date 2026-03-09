@@ -221,4 +221,25 @@ class HomeController extends Controller
 
         return view('teams', compact('fullStandings', 'topScorers', 'topAssists'));
     }
+
+    public function boutique()
+    {
+        $response = $this->apiService->getJournals();
+        $journals = $response['data'] ?? [];
+        
+        return view('boutique', compact('journals'));
+    }
+
+    public function journalDetail($slug)
+    {
+        $journal = $this->apiService->getJournal($slug);
+        
+        if (!$journal) {
+            abort(404);
+        }
+        
+        $latestJournals = $this->apiService->getLatestJournals(4);
+        
+        return view('journal-detail', compact('journal', 'latestJournals'));
+    }
 }

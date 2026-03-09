@@ -36,8 +36,7 @@
                 <a href="/" class="flex items-center gap-3">
                     <img src="<?php echo e(asset('images/logo.png')); ?>" alt="Abidjansports" class="h-14 w-auto">
                 </a>
-                
-                            </div>
+            </div>
         </div>
         
         
@@ -107,6 +106,11 @@
                             Classements
                         </a>
                     </li>
+                    <li>
+                        <a href="<?php echo e(route('boutique')); ?>" class="block px-5 py-3 font-semibold hover:bg-white/20 border-b-2 border-transparent hover:border-white transition-all <?php echo e(request()->is('boutique*') ? 'bg-white/20 border-white' : ''); ?>">
+                            Boutique
+                        </a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -123,7 +127,6 @@
                     toggle.addEventListener('click', function(e) {
                         e.preventDefault();
                         
-                        // Fermer tous les autres dropdowns
                         dropdowns.forEach(other => {
                             if (other !== dropdown) {
                                 other.querySelector('.dropdown-content').classList.add('hidden');
@@ -131,13 +134,11 @@
                             }
                         });
                         
-                        // Toggle le dropdown actuel
                         content.classList.toggle('hidden');
                         arrow.classList.toggle('rotate-180');
                     });
                 });
                 
-                // Fermer les dropdowns quand on clique ailleurs
                 document.addEventListener('click', function(e) {
                     if (!e.target.closest('.dropdown-menu')) {
                         dropdowns.forEach(dropdown => {

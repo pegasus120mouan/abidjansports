@@ -128,4 +128,53 @@ class ApiService
             return null;
         }
     }
+
+    public function getJournals()
+    {
+        try {
+            $response = Http::timeout(5)->get("{$this->baseUrl}/journals");
+            
+            if ($response->successful()) {
+                return $response->json() ?? [];
+            }
+            
+            return [];
+        } catch (\Exception $e) {
+            return [];
+        }
+    }
+
+    public function getLatestJournals($limit = 6)
+    {
+        return Cache::remember("latest_journals_{$limit}", 120, function () use ($limit) {
+            try {
+                $response = Http::timeout(5)->get("{$this->baseUrl}/journals/latest", [
+                    'limit' => $limit
+                ]);
+                
+                if ($response->successful()) {
+                    return $response->json('data') ?? [];
+                }
+                
+                return [];
+            } catch (\Exception $e) {
+                return [];
+            }
+        });
+    }
+
+    public function getJournal($slug)
+    {
+        try {
+            $response = Http::timeout(5)->get("{$this->baseUrl}/journals/{$slug}");
+            
+            if ($response->successful()) {
+                return $response->json('data') ?? null;
+            }
+            
+            return null;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 }
