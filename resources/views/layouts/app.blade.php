@@ -209,5 +209,32 @@
             </div>
         </div>
     </footer>
+
+    {{-- Tracking des visites --}}
+    <script>
+    (function() {
+        const trackVisit = () => {
+            const data = {
+                type_page: '{{ $typePage ?? "autre" }}',
+                article_id: {{ $articleId ?? 'null' }}
+            };
+            
+            fetch('{{ config("app.api_url") }}/visite', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).catch(() => {});
+        };
+        
+        if (document.readyState === 'complete') {
+            trackVisit();
+        } else {
+            window.addEventListener('load', trackVisit);
+        }
+    })();
+    </script>
 </body>
 </html>

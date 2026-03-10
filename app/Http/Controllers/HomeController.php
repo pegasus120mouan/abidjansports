@@ -35,7 +35,8 @@ class HomeController extends Controller
             ['title' => 'La Côte d\'Ivoire accueillera la CAN 2027', 'views' => '48K'],
         ];
 
-        return view('home', compact('latestArticles', 'standings', 'popularArticles', 'flashInfos'));
+        return view('home', compact('latestArticles', 'standings', 'popularArticles', 'flashInfos'))
+            ->with('typePage', 'accueil');
     }
 
     public function article($slug)
@@ -48,7 +49,9 @@ class HomeController extends Controller
         
         $latestArticles = $this->apiService->getLatestArticles(5);
         
-        return view('article', compact('article', 'latestArticles'));
+        return view('article', compact('article', 'latestArticles'))
+            ->with('typePage', 'article')
+            ->with('articleId', $article['id'] ?? null);
     }
 
     public function category($slug)
@@ -72,6 +75,7 @@ class HomeController extends Controller
             'categorySlug' => $slug,
             'categoryColor' => $categoryColor,
             'articles' => $articles,
+            'typePage' => 'categorie',
         ]);
     }
 
@@ -227,7 +231,8 @@ class HomeController extends Controller
         $response = $this->apiService->getJournals();
         $journals = $response['data'] ?? [];
         
-        return view('boutique', compact('journals'));
+        return view('boutique', compact('journals'))
+            ->with('typePage', 'boutique');
     }
 
     public function journalDetail($slug)
@@ -240,6 +245,7 @@ class HomeController extends Controller
         
         $latestJournals = $this->apiService->getLatestJournals(4);
         
-        return view('journal-detail', compact('journal', 'latestJournals'));
+        return view('journal-detail', compact('journal', 'latestJournals'))
+            ->with('typePage', 'boutique');
     }
 }

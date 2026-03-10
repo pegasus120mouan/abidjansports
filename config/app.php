@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'api_url' => env('API_URL', 'http://abidjansports-admin.test/api'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
