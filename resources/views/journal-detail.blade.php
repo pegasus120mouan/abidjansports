@@ -23,7 +23,7 @@
                     {{-- Image --}}
                     <div class="aspect-[3/4] rounded-lg overflow-hidden bg-gray-100">
                         @if($journal['image'])
-                            <img src="{{ $journal['image'] }}" 
+                            <img src="{{ \App\Helpers\HtmlHelper::proxyImageUrl($journal['image']) }}" 
                                  alt="{{ $journal['titre'] }}" 
                                  class="w-full h-full object-cover">
                         @else
@@ -119,7 +119,7 @@
                             <a href="{{ route('journal.show', $item['slug']) }}" class="flex gap-3 group">
                                 <div class="w-16 h-20 rounded-lg overflow-hidden shrink-0 bg-gray-100">
                                     @if($item['image'])
-                                        <img src="{{ $item['image'] }}" alt="{{ $item['titre'] }}" class="w-full h-full object-cover">
+                                        <img src="{{ \App\Helpers\HtmlHelper::proxyImageUrl($item['image']) }}" alt="{{ $item['titre'] }}" class="w-full h-full object-cover">
                                     @else
                                         <div class="w-full h-full flex items-center justify-center bg-orange-100">
                                             <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -28,7 +28,7 @@
                     <a href="{{ route('journal.show', $journal['slug']) }}" class="block">
                         <div class="relative aspect-[3/4] overflow-hidden bg-gray-100">
                             @if($journal['image'])
-                                <img src="{{ $journal['image'] }}" 
+                                <img src="{{ \App\Helpers\HtmlHelper::proxyImageUrl($journal['image']) }}" 
                                      alt="{{ $journal['titre'] }}" 
                                      class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                             @else

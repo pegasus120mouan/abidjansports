@@ -29,7 +29,7 @@
             <a href="{{ route('article.show', $articles[0]['slug']) }}" class="block">
                 <article class="relative rounded-xl overflow-hidden group cursor-pointer h-[350px] mb-8">
                     @if($articles[0]['image'])
-                        <img src="{{ $articles[0]['image'] }}" 
+                        <img src="{{ \App\Helpers\HtmlHelper::proxyImageUrl($articles[0]['image']) }}" 
                              alt="{{ $articles[0]['titre'] }}" 
                              class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                     @else
@@ -63,7 +63,7 @@
                     <article class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition group h-full">
                         <div class="h-48 overflow-hidden">
                             @if($article['image'])
-                                <img src="{{ $article['image'] }}" 
+                                <img src="{{ \App\Helpers\HtmlHelper::proxyImageUrl($article['image']) }}" 
                                      alt="{{ $article['titre'] }}" 
                                      class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                             @else
@@ -152,7 +152,7 @@
                         <article class="flex gap-3 group cursor-pointer">
                             <div class="w-20 h-16 rounded-lg overflow-hidden shrink-0">
                                 @if($article['image'])
-                                    <img src="{{ $article['image'] }}" alt="" class="w-full h-full object-cover">
+                                    <img src="{{ \App\Helpers\HtmlHelper::proxyImageUrl($article['image']) }}" alt="" class="w-full h-full object-cover">
                                 @else
                                     <div class="w-full h-full bg-gray-200"></div>
                                 @endif
